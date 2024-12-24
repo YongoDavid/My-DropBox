@@ -4,14 +4,14 @@ import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { deleteFolder } from "../../firebaseConfig"; // Import deleteFolder function
-import swal from "sweetalert"; // Import SweetAlert
+import Swal from "sweetalert2"; // Import SweetAlert
 export default function Folder({ folder }) {
   // Handler for deleting a folder
   const handleDelete = (e) => {
     e.preventDefault();
 
     // SweetAlert confirmation before deleting
-    swal({
+    Swal({
       title: `Are you sure you want to delete the folder "${folder.name}"?`,
       text: "Once deleted, you will not be able to recover this folder!",
       icon: "warning",
@@ -23,20 +23,20 @@ export default function Folder({ folder }) {
         deleteFolder(folder.id)
           .then(() => {
             // SweetAlert success message
-            swal("Folder deleted successfully!", {
+            Swal("Folder deleted successfully!", {
               icon: "success",
             });
           })
           .catch((error) => {
             // SweetAlert error message
-            swal("Failed to delete folder!", {
+            Swal("Failed to delete folder!", {
               icon: "error",
             });
             console.error("Error deleting folder: ", error);
           });
       } else {
         // SweetAlert cancellation message (optional)
-        swal("Your folder is safe!");
+        Swal("Your folder is safe!");
       }
     });
   };

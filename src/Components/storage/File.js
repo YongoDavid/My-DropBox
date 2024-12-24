@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { storage, db } from "../../firebaseConfig";
 import { useAuthenticate } from "../../Context";
-import swal from "sweetalert"; // Import SweetAlert
+import Swal from 'sweetalert2'
 // Simple Base64 encoding function
 function encodeUrl(url) {
   return btoa(url); // Encoding the URL to Base64
@@ -18,7 +18,7 @@ export default function File({ file, currentFolder }) {
         : `${currentFolder.path.join("/")}/${file.name}`;
 
     // SweetAlert confirmation before deleting the file
-    swal({
+    Swal({
       title: `Are you sure you want to delete this file?`,
       text: "Once deleted, you will not be able to recover it!",
       icon: "warning",
@@ -43,19 +43,19 @@ export default function File({ file, currentFolder }) {
                 });
               })
               .then(() => {
-                swal("File deleted successfully!", { icon: "success" });
+                Swal("File deleted successfully!", { icon: "success" });
               })
               .catch((error) => {
-                swal("Failed to delete file!", { icon: "error" });
+                Swal("Failed to delete file!", { icon: "error" });
                 console.error("Error deleting file: ", error);
               });
           })
           .catch((error) => {
-            swal("Failed to delete file from storage!", { icon: "error" });
+            Swal("Failed to delete file from storage!", { icon: "error" });
             console.error("Error deleting file: ", error);
           });
       } else {
-        swal("Your file is safe!");
+        Swal("Your file is safe!");
       }
     });
   }
@@ -69,7 +69,7 @@ export default function File({ file, currentFolder }) {
     const expiration = new Date();
     expiration.setHours(expiration.getHours() + 24); // Set expiration to 24 hours from now
     setExpirationDate(expiration.toISOString()); // Store the expiration date
-    swal({
+    Swal({
       title: "Shareable Link Created!",
       text: `Link: ${shareableLink} (Expires: ${expiration.toLocaleString()})`,
       icon: "info",

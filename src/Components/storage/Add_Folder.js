@@ -3,7 +3,7 @@ import { Button, Modal, Form } from "react-bootstrap";
 import { db } from "../../firebaseConfig";
 import { useAuthenticate } from "../../Context";
 import { ROOT_FOLDER } from "../../CustomHook";
-import swal from 'sweetalert'; // Import SweetAlert
+import Swal from 'sweetalert2'
 export default function AddFolderButton({ currentFolder }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -34,11 +34,11 @@ export default function AddFolderButton({ currentFolder }) {
     })
     .then(() => {
       // SweetAlert for success
-      swal("Success", "Folder created successfully!", "success");
+      Swal("Success", "Folder created successfully!", "success");
     })
     .catch((error) => {
       // SweetAlert for error
-      swal("Error", "Failed to create folder!", "error");
+      Swal("Error", "Failed to create folder!", "error");
     });
 
     setName("");
