@@ -1,3 +1,4 @@
+// Signup.js
 import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuthenticate } from "../Context";
@@ -18,13 +19,27 @@ export default function Signup() {
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match");
     }
+    
     try {
       setError("");
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
       history.push("/");
-    } catch {
-      setError("Failed to create an account");
+    } catch (error) {
+      // Supabase-specific error handling
+      switch (error.message) {
+        case "User already registered":
+          setError("An account with this email already exists");
+          break;
+        case "Password should be at least 6 characters":
+          setError("Password must be at least 6 characters long");
+          break;
+        case "Unable to validate email address: invalid format":
+          setError("Please enter a valid email address");
+          break;
+        default:
+          setError("Failed to create account: " + error.message);
+      }
     }
     setLoading(false);
   }
@@ -36,7 +51,7 @@ export default function Signup() {
           width: "400px",
           padding: "30px",
           borderRadius: "15px",
-          boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.2)", // 3D look
+          boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.2)",
         }}
         className="bg-light mx-auto"
       >

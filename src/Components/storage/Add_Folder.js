@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
-import { db } from "../../firebaseConfig";
+import { supabase } from "../../supabaseConfig";
 import { useAuthenticate } from "../../Context";
 import { ROOT_FOLDER } from "../../CustomHook";
 import Swal from 'sweetalert2'
@@ -25,12 +25,12 @@ export default function AddFolderButton({ currentFolder }) {
     }
 
     // Add folder to database
-    db.folders.add({
+    supabase.folders.add({
       name: name, 
       parentId: currentFolder.id, 
       userId: currentUser.uid, 
       path: path, 
-      createdAt: db.getCurrentTimestamp(),
+      createdAt: supabase.getCurrentTimestamp(),
     })
     .then(() => {
       // SweetAlert for success

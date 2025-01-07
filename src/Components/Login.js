@@ -1,3 +1,4 @@
+// Login.js
 import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuthenticate } from "../Context";
@@ -19,10 +20,19 @@ export default function Login() {
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
       history.push("/");
-    } catch {
-      setError("No such account exists");
+    } catch (error) {
+      // Supabase-specific error handling
+      switch (error.message) {
+        case "Invalid login credentials":
+          setError("Invalid email or password");
+          break;
+        case "Email not confirmed":
+          setError("Please verify your email address");
+          break;
+        default:
+          setError("Failed to log in: " + error.message);
+      }
     }
-
     setLoading(false);
   }
 
@@ -33,7 +43,7 @@ export default function Login() {
           width: "400px",
           padding: "30px",
           borderRadius: "15px",
-          boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.2)", // 3D look
+          boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.2)",
         }}
         className="bg-light mx-auto"
       >

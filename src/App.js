@@ -8,7 +8,6 @@ import HelperRoute from "./Components/HelperRoute"
 import ForgotPassword from "./Components/ForgotPassword"
 import UpdateProfile from "./Components/UpdateProfile"
 import Dashboard from "./Components/storage/Home"
-
 function App() {
   return (
     <Router>
@@ -23,7 +22,7 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/forgot-password" component={ForgotPassword} />
       </AuthenticationProvider>
-    </Router>
+    </Router>    
   )
 }
 

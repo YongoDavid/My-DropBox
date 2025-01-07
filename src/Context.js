@@ -1,42 +1,84 @@
 import React, { useContext, useState, useEffect } from "react"
-import { auth } from "./firebaseConfig"
+import { supabase } from "./supabaseConfig"
 
 const Context = React.createContext()
 
 export function useAuthenticate() {
   return useContext(Context)
 }
+
 export function AuthenticationProvider({ children }) {
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
-  function signup(email, password) {
-    return auth.createUserWithEmailAndPassword(email, password)
+
+  async function signup(email, password) {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password
+    })
+    if (error) throw error
+    return data
   }
-  function login(email, password) {
-    return auth.signInWithEmailAndPassword(email, password)
+
+  async function login(email, password) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    })
+    if (error) throw error
+    return data
   }
-  function logout() {
-    return auth.signOut()
+
+  async function logout() {
+    const { error } = await supabase.auth.signOut()
+    if (error) throw error
   }
-  function resetPassword(email) {
-    return auth.sendPasswordResetEmail(email)
+
+  async function resetPassword(email) {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/update-password`,
+    })
+    if (error) throw error
   }
-  function updateEmail(email) {
-    return currentUser.updateEmail(email)
+
+  async function updateEmail(email) {
+    const { data, error } = await supabase.auth.updateUser({ email })
+    if (error) throw error
+    return data
   }
-  function updatePassword(password) {
-    return currentUser.updatePassword(password)
+
+  async function updatePassword(password) {
+    const { data, error } = await supabase.auth.updateUser({ password })
+    if (error) throw error
+    return data
   }
+
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      setCurrentUser(user)
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setCurrentUser(session?.user ?? null)
       setLoading(false)
     })
-    return unsubscribe
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setCurrentUser(session?.user ?? null)
+      setLoading(false)
+    })
+
+    return () => subscription?.unsubscribe()
   }, [])
 
-  const value = { currentUser, login, signup, logout, resetPassword, updateEmail, updatePassword
+  const value = {
+    currentUser,
+    login,
+    signup,
+    logout,
+    resetPassword,
+    updateEmail,
+    updatePassword
   }
+
   return (
     <Context.Provider value={value}>
       {!loading && children}

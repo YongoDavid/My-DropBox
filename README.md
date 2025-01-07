@@ -68,3 +68,14 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+having issues when uploading a file , error ref is Add_File.js
+Still trying to fix uploading error from "Add_File.js"
+
+
+
+Stopped at creating a new chat and trying to trasnfer information to the new chat.
+
+New update :
+i have updated the SuperbaseAuth file 
+i am having error when trying to upload the new RLS policies

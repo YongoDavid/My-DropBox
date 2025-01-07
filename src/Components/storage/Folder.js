@@ -1,11 +1,13 @@
 import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { deleteFolder } from "../../firebaseConfig"; // Import deleteFolder function
+// import { deleteFolder } from "../../firebaseConfig"; // Import deleteFolder function
 import Swal from "sweetalert2"; // Import SweetAlert
 export default function Folder({ folder }) {
+  const [deleteFolder , setDeleteFolder] = useState(); 
   // Handler for deleting a folder
   const handleDelete = (e) => {
     e.preventDefault();
