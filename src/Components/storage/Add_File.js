@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { Button, ProgressBar } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileUpload } from "@fortawesome/free-solid-svg-icons";
@@ -10,13 +10,22 @@ export default function AddFileButton({ currentFolder }) {
   const [uploadingFiles, setUploadingFiles] = useState([]);
   const { currentUser } = useAuthenticate();
 
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      console.log("Current session:", session);
+      console.log("Session user:", session?.user);
+    };
+    
+    checkAuth();
+  }, []);
+
   async function handleUpload(e) {
     const file = e.target.files[0];
     if (!file) return;
     
-    // Verify user is authenticated
     if (!currentUser?.id) {
-      console.error('User must be authenticated to upload files');
+      console.error('User not authenticated');
       return;
     }
 
@@ -26,47 +35,47 @@ export default function AddFileButton({ currentFolder }) {
       { id, file, progress: 0 }
     ]);
 
-    // Move filePath declaration outside try block
     const filePath = currentFolder?.id
-      ? `${currentUser.id}/${currentFolder.id}/${file.name}`
-      : `${currentUser.id}/${file.name}`;
+      ? `files/${currentUser.id}/${currentFolder.id}/${file.name}`
+      : `files/${currentUser.id}/${file.name}`;
 
     try {
-      // Upload to Supabase Storage
+      // First insert the database record
+      const fileData = {
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        folder_id: currentFolder?.id || null,
+        user_id: currentUser.id,
+        storage_path: filePath
+      };
+
+      console.log('Attempting to insert:', fileData);
+
+      const { data: dbData, error: dbError } = await supabase
+        .from('files')
+        .insert([fileData])
+        .select();
+
+      if (dbError) {
+        console.error('Database error:', dbError);
+        throw dbError;
+      }
+
+      // Then upload to storage
       const { data: storageData, error: storageError } = await supabase.storage
         .from('files')
         .upload(filePath, file, {
-          onUploadProgress: progress => {
-            setUploadingFiles(prevUploadingFiles => {
-              return prevUploadingFiles.map(uploadFile => {
-                if (uploadFile.id === id) {
-                  return { ...uploadFile, progress: (progress.loaded / progress.total) * 100 }
-                }
-                return uploadFile
-              })
-            })
-          }
+          cacheControl: '3600',
+          upsert: false
         });
 
       if (storageError) {
+        console.error('Storage error:', storageError);
         throw storageError;
       }
 
-      // Add file record to database
-      const { error: dbError } = await supabase
-        .from('files')
-        .insert({
-          name: file.name,
-          type: file.type,
-          size: file.size,
-          folder_id: currentFolder?.id || null,
-          user_id: currentUser.id,
-          storage_path: filePath
-        });
-
-      if (dbError) {
-        throw dbError;
-      }
+      console.log('Upload successful:', { dbData, storageData });
 
       // Clear the upload progress
       setUploadingFiles(prevUploadingFiles => 
@@ -75,13 +84,10 @@ export default function AddFileButton({ currentFolder }) {
 
     } catch (error) {
       console.error('Error handling file upload:', error);
-      
-      // Clean up the upload progress
       setUploadingFiles(prevUploadingFiles => 
         prevUploadingFiles.filter(uploadFile => uploadFile.id !== id)
       );
-      
-      // Now filePath is accessible here
+
       if (error.message.includes('row-level security')) {
         try {
           await supabase.storage
@@ -93,6 +99,7 @@ export default function AddFileButton({ currentFolder }) {
       }
     }
   }
+  
 
   return (
     <>

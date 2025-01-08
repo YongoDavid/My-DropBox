@@ -79,3 +79,5 @@ Stopped at creating a new chat and trying to trasnfer information to the new cha
 New update :
 i have updated the SuperbaseAuth file 
 i am having error when trying to upload the new RLS policies
+
+i have updated the Add_File.js file to upload the file to the storage bucket 
