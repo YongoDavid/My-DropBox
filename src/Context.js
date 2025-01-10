@@ -21,12 +21,20 @@ export function AuthenticationProvider({ children }) {
   }
 
   async function login(email, password) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    })
-    if (error) throw error
-    return data
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      })
+      if (error) {
+        console.error('Supabase auth error:', error)
+        throw error
+      }
+      return data
+    } catch (error) {
+      console.error('Login function error:', error)
+      throw error
+    }
   }
 
   async function logout() {
