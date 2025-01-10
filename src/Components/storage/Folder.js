@@ -1,46 +1,51 @@
 import React from "react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
-// import { deleteFolder } from "../../firebaseConfig"; // Import deleteFolder function
-import Swal from "sweetalert2"; // Import SweetAlert
+import Swal from "sweetalert2";
+import { supabase } from "../../supabaseConfig";
+
 export default function Folder({ folder }) {
-  const [deleteFolder , setDeleteFolder] = useState(); 
   // Handler for deleting a folder
-  const handleDelete = (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault();
 
-    // SweetAlert confirmation before deleting
-    Swal({
+    // Updated SweetAlert syntax
+    const result = await Swal.fire({
       title: `Are you sure you want to delete the folder "${folder.name}"?`,
       text: "Once deleted, you will not be able to recover this folder!",
       icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    }).then((willDelete) => {
-      if (willDelete) {
-        // Delete the folder using the deleteFolder function
-        deleteFolder(folder.id)
-          .then(() => {
-            // SweetAlert success message
-            Swal("Folder deleted successfully!", {
-              icon: "success",
-            });
-          })
-          .catch((error) => {
-            // SweetAlert error message
-            Swal("Failed to delete folder!", {
-              icon: "error",
-            });
-            console.error("Error deleting folder: ", error);
-          });
-      } else {
-        // SweetAlert cancellation message (optional)
-        Swal("Your folder is safe!");
-      }
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
     });
+
+    if (result.isConfirmed) {
+      try {
+        const { error } = await supabase
+          .from('folders')
+          .delete()
+          .match({ id: folder.id });
+
+        if (error) throw error;
+
+        // Success message
+        await Swal.fire(
+          'Deleted!',
+          'Folder has been deleted.',
+          'success'
+        );
+      } catch (error) {
+        console.error("Error deleting folder: ", error);
+        await Swal.fire(
+          'Error!',
+          'Failed to delete folder.',
+          'error'
+        );
+      }
+    }
   };
 
   return (

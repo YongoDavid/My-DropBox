@@ -15,34 +15,54 @@ export default function AddFolderButton({ currentFolder }) {
   function closeModal() {
     setOpen(false);
   }
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    if (currentFolder == null) return;
     
-    const path = [...currentFolder.path];
-    if (currentFolder !== ROOT_FOLDER) {
-      path.push({ name: currentFolder.name, id: currentFolder.id });
+    if (!currentUser) {
+      console.log("Authentication state:", { currentUser });
+      Swal.fire("Error", "You must be logged in to create folders", "error");
+      return;
     }
 
-    // Add folder to database
-    supabase.folders.add({
-      name: name, 
-      parentId: currentFolder.id, 
-      userId: currentUser.uid, 
-      path: path, 
-      createdAt: supabase.getCurrentTimestamp(),
-    })
-    .then(() => {
-      // SweetAlert for success
-      Swal("Success", "Folder created successfully!", "success");
-    })
-    .catch((error) => {
-      // SweetAlert for error
-      Swal("Error", "Failed to create folder!", "error");
-    });
+    if (currentFolder == null) return;
 
-    setName("");
-    closeModal();
+    try {
+      console.log("Current User:", currentUser);
+      
+      const path = [...currentFolder.path];
+      if (currentFolder !== ROOT_FOLDER) {
+        path.push({ name: currentFolder.name, id: currentFolder.id });
+      }
+
+      const folderData = {
+        name: name, 
+        parent_id: currentFolder.id,
+        user_id: currentUser.id,
+        path: path, 
+        created_at: new Date().toISOString(),
+      };
+
+      console.log("Attempting to insert folder with data:", folderData);
+
+      const { data, error } = await supabase
+        .from('folders')
+        .insert([folderData])
+        .select()
+
+      if (error) {
+        console.error("Supabase error:", error);
+        Swal.fire("Error", "Failed to create folder: " + error.message, "error");
+        return;
+      }
+
+      console.log("Successfully created folder:", data);
+      Swal.fire("Success", "Folder created successfully!", "success");
+      setName("");
+      closeModal();
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      Swal.fire("Error", "Failed to create folder!", "error");
+    }
   }
 
   return (

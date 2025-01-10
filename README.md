@@ -83,3 +83,16 @@ i am having error when trying to upload the new RLS policies
 i have updated the Add_File.js file to upload the file to the storage bucket
 
 file uploads are now working , buts not displaying on on the UI
+
+We fixed the :
+
+1. Corrected the field names to match Supabase's column names (`created_at` instead of `createdAt`)
+2. Fixed the user authentication handling by properly using `currentUser.id`
+
+3. Added proper error handling and logging
+
+4. Ensured the RLS policies were correctly set up
+
+5. Added proper data structure for Supabase insert operations (wrapping in array)
+
+6. Added `.select()` to get back the inserted data for confirmation
