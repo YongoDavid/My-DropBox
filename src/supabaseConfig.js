@@ -2,12 +2,14 @@ import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-// Error handling for Supabase client initialization
-if (!supabase) {
-  throw new Error('Failed to initialize Supabase client');
+// Check environment variables first
+if (!process.env.REACT_APP_SUPABASE_URL || !process.env.REACT_APP_SUPABASE_ANON_KEY) {
+  throw new Error('Missing Supabase environment variables');
 }
+
+// Create client after checking environment variables
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Test connection
 supabase.auth.onAuthStateChange((event, session) => {
