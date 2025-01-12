@@ -1,93 +1,140 @@
-// Login.js
-import React, { useRef, useState } from "react";
-import { Form, Button, Card, Alert } from "react-bootstrap";
+import React, { useState } from "react";
 import { useAuthenticate } from "../Context";
 import { Link, useHistory } from "react-router-dom";
-import Center from "./Center";
+import cloud from './Images/happyman.jpg';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  VStack,
+  Heading,
+  Text,
+  useToast,
+  InputGroup,
+  InputRightElement,
+  IconButton,
+  Image,
+} from "@chakra-ui/react";
+import { Eye, EyeOff, LogIn } from 'lucide-react';
 
 export default function Login() {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const { login } = useAuthenticate();
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { login } = useAuthenticate();
   const history = useHistory();
+  const toast = useToast();
 
-  async function signIn(e) {
+  async function handleLogin(e) {
     e.preventDefault();
+    setLoading(true);
     try {
-      setError("");
-      setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
+      await login(email, password);
       history.push("/");
     } catch (error) {
-      // Supabase-specific error handling
+      let errorMessage = "Failed to log in";
       switch (error.message) {
         case "Invalid login credentials":
-          setError("Invalid email or password");
+          errorMessage = "Invalid email or password";
           break;
         case "Email not confirmed":
-          setError("Please verify your email address");
+          errorMessage = "Please verify your email address";
           break;
-        default:
-          setError("Failed to log in: " + error.message);
       }
+      toast({
+        title: "Error",
+        description: errorMessage,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
     setLoading(false);
   }
 
   return (
-    <Center>
-      <Card
-        style={{
-          width: "400px",
-          padding: "30px",
-          borderRadius: "15px",
-          boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.2)",
-        }}
-        className="bg-light mx-auto"
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100vh"
+      bg="blue.50"
+    >
+      <Box
+        bg="white"
+        p={8}
+        borderRadius="xl"
+        boxShadow="xl"
+        width={{ base: "90%", sm: "400px", md: "900px" }}
+        display={{ md: "flex" }}
       >
-        <Card.Body>
-          <h2 className="text-center text-primary mb-4">Log In</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={signIn}>
-            <Form.Group id="email" className="mb-3">
-              <Form.Control
-                className="bg-light text-dark border border-primary rounded"
-                type="email"
-                placeholder="Email"
-                ref={emailRef}
-                required
+        <VStack spacing={6} width={{ base: "100%", md: "50%" }}>
+          <Heading color="blue.500">Log In</Heading>
+          <FormControl id="email">
+            <FormLabel>Email</FormLabel>
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              borderColor="blue.300"
+              _hover={{ borderColor: "blue.400" }}
+              _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px #3182ce" }}
+            />
+          </FormControl>
+          <FormControl id="password">
+            <FormLabel>Password</FormLabel>
+            <InputGroup>
+              <Input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                borderColor="blue.300"
+                _hover={{ borderColor: "blue.400" }}
+                _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px #3182ce" }}
               />
-            </Form.Group>
-            <Form.Group id="password" className="mb-4">
-              <Form.Control
-                className="bg-light text-dark border border-primary rounded"
-                type="password"
-                placeholder="Password"
-                ref={passwordRef}
-                required
-              />
-            </Form.Group>
-            <div className="d-flex justify-content-center">
-              <Button
-                disabled={loading}
-                className="bg-primary border border-primary rounded"
-                type="submit"
-                style={{ width: "150px" }}
-              >
-                Log In
-              </Button>
-            </div>
-          </Form>
-          <div className="w-100 text-center text-danger mt-3">
+              <InputRightElement>
+                <IconButton
+                  icon={showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  onClick={() => setShowPassword(!showPassword)}
+                  variant="ghost"
+                  color="gray.500"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                />
+              </InputRightElement>
+            </InputGroup>
+          </FormControl>
+          <Button
+            leftIcon={<LogIn size={18} />}
+            colorScheme="blue"
+            isLoading={loading}
+            onClick={handleLogin}
+            width="full"
+          >
+            Log In
+          </Button>
+          <Text color="blue.600">
             <Link to="/forgot-password">Forgot Password?</Link>
-          </div>
-          <div className="w-100 text-center text-dark mt-2">
-            Need an account? <Link to="/signup">Sign Up</Link>
-          </div>
-        </Card.Body>
-      </Card>
-    </Center>
+          </Text>
+          <Text>
+            Need an account?{" "}
+            <Link to="/signup" style={{ color: "blue" }}>
+              Sign Up
+            </Link>
+          </Text>
+        </VStack>
+        <Box width={{ base: "100%", md: "50%" }} display={{ base: "none", md: "block" }}>
+          <Image
+            src={cloud}
+            alt="Cloud Storage Illustration"
+            objectFit="cover"
+            borderRadius="xl"
+          />
+        </Box>
+      </Box>
+    </Box>
   );
 }
+
