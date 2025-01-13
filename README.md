@@ -96,3 +96,5 @@ We fixed the :
 5. Added proper data structure for Supabase insert operations (wrapping in array)
 
 6. Added `.select()` to get back the inserted data for confirmation
+
+Stopped at the file and folder components UI update

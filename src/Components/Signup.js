@@ -159,6 +159,8 @@ export default function Signup() {
         </VStack>
         <Box width={{ base: "100%", md: "50%" }} display={{ base: "none", md: "block" }}>
           <Image
+            mx="20px"
+            my="80px"
             src={cloud}
             alt="Cloud Storage Illustration"
             objectFit="cover"

@@ -127,6 +127,8 @@ export default function Login() {
         </VStack>
         <Box width={{ base: "100%", md: "50%" }} display={{ base: "none", md: "block" }}>
           <Image
+            mx="20px"
+            my="40px"
             src={cloud}
             alt="Cloud Storage Illustration"
             objectFit="cover"

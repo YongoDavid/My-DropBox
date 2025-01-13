@@ -1,11 +1,11 @@
-// File.js
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFile } from "@fortawesome/free-solid-svg-icons";
+import { Td, IconButton, HStack, Text, useToast } from "@chakra-ui/react";
+import { FileText, Trash2, Download, MoreVertical } from 'lucide-react';
 import { supabase } from "../../supabaseConfig";
-import {storageUtils} from "../../storageUtils"
 
 export default function File({ file }) {
+  const toast = useToast();
+
   async function handleDelete() {
     try {
       // Delete from storage
@@ -22,9 +22,23 @@ export default function File({ file }) {
         .match({ id: file.id });
 
       if (dbError) throw dbError;
+
+      toast({
+        title: "File deleted",
+        description: "File has been successfully deleted",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
     } catch (error) {
       console.error('Error deleting file:', error);
-      // Handle error (show message to user, etc.)
+      toast({
+        title: "Error",
+        description: "Failed to delete file",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   }
 
@@ -45,28 +59,72 @@ export default function File({ file }) {
       link.click();
       link.remove();
       window.URL.revokeObjectURL(url);
+
+      toast({
+        title: "Download started",
+        description: "Your file download has begun",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
     } catch (error) {
       console.error('Error downloading file:', error);
-      // Handle error (show message to user, etc.)
+      toast({
+        title: "Error",
+        description: "Failed to download file",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   }
 
   return (
-    <div className="d-flex align-items-center px-2 py-1">
-      <FontAwesomeIcon icon={faFile} className="mr-2" />
-      <div 
-        className="text-truncate flex-grow-1 mr-2" 
-        style={{ cursor: "pointer" }}
-        onClick={handleDownload}
-      >
-        {file.name}
-      </div>
-      <button
-        className="btn btn-outline-danger btn-sm"
-        onClick={handleDelete}
-      >
-        Delete
-      </button>
-    </div>
+    <>
+      <Td>
+        <HStack spacing={3}>
+          <FileText size={20} color="#68A1F8" />
+          <Text
+            cursor="pointer"
+            onClick={handleDownload}
+            _hover={{ color: "blue.500" }}
+          >
+            {file.name}
+          </Text>
+        </HStack>
+      </Td>
+      <Td color="gray.600" fontSize="sm">
+        {new Date(file.created_at).toLocaleString()}
+      </Td>
+      <Td color="gray.600" fontSize="sm">
+        Only you
+      </Td>
+      <Td>
+        <HStack spacing={1} justify="flex-end">
+          <IconButton
+            icon={<Download size={18} />}
+            variant="ghost"
+            size="sm"
+            aria-label="Download file"
+            onClick={handleDownload}
+          />
+          <IconButton
+            icon={<Trash2 size={18} />}
+            variant="ghost"
+            size="sm"
+            aria-label="Delete file"
+            onClick={handleDelete}
+            _hover={{ color: "red.500" }}
+          />
+          <IconButton
+            icon={<MoreVertical size={18} />}
+            variant="ghost"
+            size="sm"
+            aria-label="More options"
+          />
+        </HStack>
+      </Td>
+    </>
   );
 }
+
