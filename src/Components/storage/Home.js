@@ -15,6 +15,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useCustomHook } from "../../CustomHook";
 import AddFolderButton from "./Add_Folder";
@@ -24,7 +25,7 @@ import File from "./File";
 import Navbar from "../Navbar";
 import FolderBreadcrumbs from "./FolderBreadcrumbs";
 import { useParams, useLocation } from "react-router-dom";
-import { FolderPlus, Upload, ChevronDown, Star } from 'lucide-react';
+import { FolderPlus, Upload, ChevronDown, FileText } from 'lucide-react';
 
 function Home() {
   const { folderId } = useParams();
@@ -33,6 +34,7 @@ function Home() {
     folderId,
     state.folder
   );
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Box minH="100vh" bg="gray.50">
@@ -45,34 +47,30 @@ function Home() {
               <FolderBreadcrumbs currentFolder={folder} />
             </HStack>
             <HStack spacing={3}>
-              <Button
-                leftIcon={<Upload size={18} />}
-                colorScheme="blue"
-                size="md"
-                onClick={() => document.getElementById('file-upload').click()}
-              >
-                Upload
-              </Button>
+              {/* CREATE FILE / FOLDER SETUP  */}
               <Menu>
                 <MenuButton
                   as={Button}
+                  colorScheme="blue"
                   rightIcon={<ChevronDown size={18} />}
-                  leftIcon={<FolderPlus size={18} />}
-                  variant="outline"
+                  leftIcon={<Upload size={18} />}
                 >
-                  Create New
+                  New
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>
-                    <AddFolderButton currentFolder={folder} />
+                  <MenuItem icon={<FolderPlus size={18} />} onClick={onOpen}>
+                    New Folder
                   </MenuItem>
-                  <MenuItem>
-                    <AddFileButton currentFolder={folder} />
+                  <MenuItem icon={<FileText size={18} />} as="label" htmlFor="file-upload">
+                    Upload File
                   </MenuItem>
                 </MenuList>
               </Menu>
             </HStack>
           </Flex>
+
+          {/* Add the AddFileButton component here */}
+          <AddFileButton currentFolder={folder} />
 
           {/* Content Section */}
           <Box bg="white" borderRadius="xl" boxShadow="sm" overflow="hidden">
@@ -102,10 +100,10 @@ function Home() {
                           size="sm"
                           colorScheme="blue"
                           variant="link"
-                          onClick={() => document.getElementById('file-upload').click()}
+                          onClick={onOpen}
                           mt={2}
                         >
-                          Upload files
+                          Create a new folder
                         </Button>
                       </Flex>
                     </td>
@@ -137,6 +135,7 @@ function Home() {
           />
         </Flex>
       </Container>
+      <AddFolderButton currentFolder={folder} isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 }

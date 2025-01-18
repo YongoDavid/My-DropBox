@@ -98,3 +98,8 @@ We fixed the :
 6. Added `.select()` to get back the inserted data for confirmation
 
 Stopped at the file and folder components UI update
+Issues that are yet to be resolved.
+1. The files uploaded and folders created dont show immediatly on UI till i logout and log back in or refresh my page.
+2. after this new UI update , it is only creating a folder that is working , uploading a file is not working anymore.
+3. i am yet to design the profile section.
+4. I am yet to host the client side on render as well.

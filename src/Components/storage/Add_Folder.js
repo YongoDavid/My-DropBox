@@ -1,26 +1,40 @@
 import React, { useState } from "react";
-import { Button, Modal, Form } from "react-bootstrap";
+import {
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  FormControl,
+  FormLabel,
+  Input,
+  useToast,
+} from "@chakra-ui/react";
+import { FolderPlus } from 'lucide-react';
 import { supabase } from "../../supabaseConfig";
 import { useAuthenticate } from "../../Context";
 import { ROOT_FOLDER } from "../../CustomHook";
-import Swal from 'sweetalert2'
-export default function AddFolderButton({ currentFolder }) {
-  const [open, setOpen] = useState(false);
+
+export default function AddFolderButton({ currentFolder, isOpen, onClose }) {
   const [name, setName] = useState("");
   const { currentUser } = useAuthenticate();
+  const toast = useToast();
 
-  function openModal() {
-    setOpen(true);
-  }
-  function closeModal() {
-    setOpen(false);
-  }
   async function handleSubmit(e) {
     e.preventDefault();
     
     if (!currentUser) {
       console.log("Authentication state:", { currentUser });
-      Swal.fire("Error", "You must be logged in to create folders", "error");
+      toast({
+        title: "Authentication Error",
+        description: "You must be logged in to create folders",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
       return;
     }
 
@@ -51,43 +65,66 @@ export default function AddFolderButton({ currentFolder }) {
 
       if (error) {
         console.error("Supabase error:", error);
-        Swal.fire("Error", "Failed to create folder: " + error.message, "error");
+        toast({
+          title: "Error",
+          description: "Failed to create folder: " + error.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
         return;
       }
 
       console.log("Successfully created folder:", data);
-      Swal.fire("Success", "Folder created successfully!", "success");
+      toast({
+        title: "Success",
+        description: "Folder created successfully!",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
       setName("");
-      closeModal();
+      onClose();
     } catch (error) {
       console.error("Unexpected error:", error);
-      Swal.fire("Error", "Failed to create folder!", "error");
+      toast({
+        title: "Error",
+        description: "Failed to create folder!",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   }
 
   return (
-    <>
-      <Button onClick={openModal} variant="outline-primary" size="lg" style={{ fontSize: 20 }}>
-        Create Folder
-      </Button>
-      <Modal show={open} onHide={closeModal}>
-        <Form className="bg-light border border-primary rounded" onSubmit={handleSubmit}>
-          <Modal.Body>
-            <Form.Group>
-              <Form.Label className="text-dark">Folder Name</Form.Label>
-              <Form.Control type="text" className="bg-light text-dark border border-primary rounded" required value={name} onChange={e => setName(e.target.value)} />
-            </Form.Group>
-          </Modal.Body>
-          <Modal.Footer className="justify-content-center">
-            <Button className="col-3 bg-danger border border-primary rounded" onClick={closeModal}>
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Create New Folder</ModalHeader>
+        <ModalCloseButton />
+        <form onSubmit={handleSubmit}>
+          <ModalBody>
+            <FormControl>
+              <FormLabel>Folder Name</FormLabel>
+              <Input 
+                placeholder="Enter folder name" 
+                value={name} 
+                onChange={e => setName(e.target.value)}
+              />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="ghost" mr={3} onClick={onClose}>
               Cancel
             </Button>
-            <Button className="col-3 bg-primary border border-primary rounded" type="submit">
+            <Button type="submit" leftIcon={<FolderPlus size={18} />} colorScheme="blue">
               Create
             </Button>
-          </Modal.Footer>
-        </Form>
-      </Modal>
-    </>
+          </ModalFooter>
+        </form>
+      </ModalContent>
+    </Modal>
   );
 }
+
