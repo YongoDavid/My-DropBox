@@ -76,7 +76,7 @@ Still trying to fix uploading error from "Add_File.js"
 
 Stopped at creating a new chat and trying to trasnfer information to the new chat.
 
-New update :
+New update : 
 i have updated the SuperbaseAuth file 
 i am having error when trying to upload the new RLS policies
 
@@ -100,6 +100,7 @@ We fixed the :
 Stopped at the file and folder components UI update
 Issues that are yet to be resolved.
 1. The files uploaded and folders created dont show immediatly on UI till i logout and log back in or refresh my page.
-2. after this new UI update , it is only creating a folder that is working , uploading a file is not working anymore.
+2. after this new UI update , it is only creating a folder that is working , uploading a file is not working anymore(Fixed)
 3. i am yet to design the profile section.
 4. I am yet to host the client side on render as well.
+5. File upload now working, need to get rid of one upload button and leave just one(I might just leave the two)
