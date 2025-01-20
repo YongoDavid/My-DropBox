@@ -10,7 +10,7 @@ import {
   MenuList,
   MenuItem,
 } from "@chakra-ui/react";
-import { LogOut, User } from 'lucide-react';
+import { LogOut, User, UserPen  } from 'lucide-react';
 import { useAuthenticate } from "../Context";
 
 export default function NavbarComponent() {
@@ -51,7 +51,11 @@ export default function NavbarComponent() {
               Profile
             </MenuButton>
             <MenuList>
-              <MenuItem as={Link} to="/user">
+              <MenuItem
+              as={Link}
+              to="/user"
+              icon={<UserPen size={18} />}
+              >
                 Update Profile
               </MenuItem>
               <MenuItem 
