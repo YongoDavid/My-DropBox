@@ -83,7 +83,7 @@ export default function File({ file }) {
     <>
       <Td>
         <Flex>
-          <HStack spacing={3}>
+          <HStack spacing={3} flex="1" >
             <FileText size={20} color="#68A1F8" />
               <Text
                 cursor="pointer"

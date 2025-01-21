@@ -104,3 +104,4 @@ Issues that are yet to be resolved.
 3. i am yet to design the profile section.
 4. I am yet to host the client side on render as well.
 5. File upload now working, need to get rid of one upload button and leave just one(I might just leave the two)
+6. Still need to add delete button to folders
