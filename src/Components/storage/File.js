@@ -82,35 +82,35 @@ export default function File({ file }) {
   return (
     <>
       <Td>
-        <Flex alignItems="center" justifyContent="space-between">
-          <HStack spacing={3} flex="1">
+        <Flex>
+          <HStack spacing={3}>
             <FileText size={20} color="#68A1F8" />
-            <Text
-              cursor="pointer"
-              onClick={handleDownload}
-              _hover={{ color: "blue.500" }}
-              isTruncated
-              maxWidth={{ base: "150px", md: "200px", lg: "200px" }}
-            >
-              {file.name}
-            </Text>
-          </HStack>
-          <HStack spacing={1} display={{ base: "flex", md: "none" }}>
-            <IconButton
-              icon={<Download size={18} />}
-              variant="ghost"
-              size="sm"
-              aria-label="Download file"
-              onClick={handleDownload}
-            />
-            <IconButton
-              icon={<Trash2 size={18} />}
-              variant="ghost"
-              size="sm"
-              aria-label="Delete file"
-              onClick={handleDelete}
-              _hover={{ color: "red.500" }}
-            />
+              <Text
+                cursor="pointer"
+                onClick={handleDownload}
+                _hover={{ color: "blue.500" }}
+                isTruncated
+                maxWidth={{ base: "150px", md: "200px", lg: "200px" }}
+              >
+                {file.name}
+              </Text>
+            </HStack>
+            <HStack spacing={1} display={{ base: "flex", md: "none" }}>
+              <IconButton
+                icon={<Download size={18} />}
+                variant="ghost"
+                size="sm"
+                aria-label="Download file"
+                onClick={handleDownload}
+              />
+              <IconButton
+                icon={<Trash2 size={18} />}
+                variant="ghost"
+                size="sm"
+                aria-label="Delete file"
+                onClick={handleDelete}
+                _hover={{ color: "red.500" }}
+              />
           </HStack>
         </Flex>
       </Td>
@@ -136,12 +136,6 @@ export default function File({ file }) {
             aria-label="Delete file"
             onClick={handleDelete}
             _hover={{ color: "red.500" }}
-          />
-          <IconButton
-            icon={<MoreVertical size={18} />}
-            variant="ghost"
-            size="sm"
-            aria-label="More options"
           />
           <IconButton icon={<MoreVertical size={18} />} variant="ghost" size="sm" aria-label="More options" />
         </HStack>
