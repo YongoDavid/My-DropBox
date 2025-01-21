@@ -1,5 +1,5 @@
 import React from "react";
-import { Td, IconButton, HStack, Text, useToast } from "@chakra-ui/react";
+import { Td, IconButton, HStack, Text, useToast, Flex , Box } from "@chakra-ui/react";
 import { FileText, Trash2, Download, MoreVertical } from 'lucide-react';
 import { supabase } from "../../supabaseConfig";
 
@@ -82,24 +82,45 @@ export default function File({ file }) {
   return (
     <>
       <Td>
-        <HStack spacing={3}>
-          <FileText size={20} color="#68A1F8" />
-          <Text
-            cursor="pointer"
-            onClick={handleDownload}
-            _hover={{ color: "blue.500" }}
-          >
-            {file.name}
-          </Text>
-        </HStack>
+        <Flex alignItems="center" justifyContent="space-between">
+          <HStack spacing={3} flex="1">
+            <FileText size={20} color="#68A1F8" />
+            <Text
+              cursor="pointer"
+              onClick={handleDownload}
+              _hover={{ color: "blue.500" }}
+              isTruncated
+              maxWidth={{ base: "150px", md: "200px", lg: "200px" }}
+            >
+              {file.name}
+            </Text>
+          </HStack>
+          <HStack spacing={1} display={{ base: "flex", md: "none" }}>
+            <IconButton
+              icon={<Download size={18} />}
+              variant="ghost"
+              size="sm"
+              aria-label="Download file"
+              onClick={handleDownload}
+            />
+            <IconButton
+              icon={<Trash2 size={18} />}
+              variant="ghost"
+              size="sm"
+              aria-label="Delete file"
+              onClick={handleDelete}
+              _hover={{ color: "red.500" }}
+            />
+          </HStack>
+        </Flex>
       </Td>
-      <Td color="gray.600" fontSize="sm">
+      <Td display={{ base: "none", md: "table-cell" }} color="gray.600" fontSize="sm">
         {new Date(file.created_at).toLocaleString()}
       </Td>
-      <Td color="gray.600" fontSize="sm">
+      <Td display={{ base: "none", md: "table-cell" }} color="gray.600" fontSize="sm">
         Only you
       </Td>
-      <Td>
+      <Td display={{base: "none", md: "table-cell"}}>
         <HStack spacing={1} justify="flex-end">
           <IconButton
             icon={<Download size={18} />}
@@ -122,6 +143,7 @@ export default function File({ file }) {
             size="sm"
             aria-label="More options"
           />
+          <IconButton icon={<MoreVertical size={18} />} variant="ghost" size="sm" aria-label="More options" />
         </HStack>
       </Td>
     </>
