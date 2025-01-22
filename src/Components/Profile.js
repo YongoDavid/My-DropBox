@@ -1,8 +1,28 @@
 import React, { useState, useEffect } from "react"
-import { Box, VStack, Heading, Text, Button, useToast, Avatar, Divider } from "@chakra-ui/react"
+import {
+  Box,
+  VStack,
+  Heading,
+  Text,
+  Button,
+  useToast,
+  Avatar,
+  Divider,
+  Container,
+  Grid,
+  GridItem,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  HStack,
+  Badge,
+  Flex,
+  Icon,
+} from "@chakra-ui/react"
 import { useAuthenticate } from "../Context"
 import { Link, useHistory } from "react-router-dom"
-import { User, Mail, LogOut, Edit } from "lucide-react"
+import { User, Mail, LogOut, Edit, Shield, Calendar } from "lucide-react"
 
 export default function Profile() {
   const [error, setError] = useState("")
@@ -39,37 +59,85 @@ export default function Profile() {
     }
   }
 
+  const joinDate = new Date(currentUser?.metadata?.creationTime).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  })
+
   return (
     <Box minH="100vh" bg="gray.50" py={10}>
-      <VStack spacing={6} mx="auto" maxW="400px" bg="white" p={8} borderRadius="xl" boxShadow="md">
-        <Heading size="lg" color="blue.500">
-          My Profile
-        </Heading>
-        <Avatar size="xl" name={currentUser.email} src={currentUser.photoURL} />
-        <VStack spacing={4} align="stretch" w="100%">
-          <Box>
-            <Text fontWeight="bold" fontSize="sm" color="gray.500" mb={1}>
-              <User size={16} style={{ display: "inline", marginRight: "8px" }} />
-              Name
-            </Text>
-            <Text fontSize="md">{currentUser.displayName || "Not set"}</Text>
-          </Box>
-          <Box>
-            <Text fontWeight="bold" fontSize="sm" color="gray.500" mb={1}>
-              <Mail size={16} style={{ display: "inline", marginRight: "8px" }} />
-              Email
-            </Text>
-            <Text fontSize="md">{currentUser.email}</Text>
-          </Box>
-        </VStack>
-        <Divider />
-        <Button as={Link} to="/update-profile" colorScheme="blue" leftIcon={<Edit size={18} />} w="100%">
-          Update Profile
-        </Button>
-        <Button onClick={handleLogout} colorScheme="red" variant="outline" leftIcon={<LogOut size={18} />} w="100%">
-          Log Out
-        </Button>
-      </VStack>
+      <Container spacing={6} mx="auto" maxW="400px" p={8}>
+        <Grid templateColumns={{ base: "1fr", lg: "300px 1fr" }} gap={6}>
+          {/* Left Column - Profile Overview */}
+          <GridItem>
+            <Card borderRadius="xl" boxShadow="md" bg="white">
+              <CardBody>
+                <VStack spacing={6} align="center">
+                  <Box position="relative">
+                    <Avatar
+                      size={{ base: "xl", md: "2xl" }}
+                      name={currentUser.email}
+                      src={currentUser.photoURL}
+                      borderWidth={4}
+                      borderColor="white"
+                      boxShadow="lg"
+                    />
+                    <Badge
+                      position="absolute"
+                      bottom={0}
+                      right={0}
+                      colorScheme="green"
+                      borderRadius="full"
+                      px={3}
+                      py={1}
+                      boxShadow="sm"
+                    >
+                      Active
+                    </Badge>
+                  </Box>
+                  <VStack spacing={1}>
+                    <Heading size="md">{currentUser.displayName || "User"}</Heading>
+                    <Text color="gray.500" fontSize="sm">
+                      {currentUser.email}
+                    </Text>
+                  </VStack>
+                  <Button
+                    as={Link}
+                    to="/update-profile"
+                    colorScheme="blue"
+                    leftIcon={<Edit size={18} />}
+                    size="sm"
+                    width="full"
+                  >
+                    Edit Profile
+                  </Button>
+                  <Flex gap={4} direction={{ base: "column", sm: "column" }} align={{ base: "stretch", sm: "center" }}>
+                    <Button
+                      as={Link}
+                      to="/update-profile"
+                      colorScheme="blue"
+                      leftIcon={<Edit size={18} />}
+                      flex={{ base: "1", sm: "initial" }}
+                    >
+                      Update Profile
+                    </Button>
+                    <Button
+                      onClick={handleLogout}
+                      colorScheme="red"
+                      variant="outline"
+                      leftIcon={<LogOut size={18} />}
+                      flex={{ base: "1", sm: "initial" }}
+                    >
+                      Log Out
+                    </Button>
+                  </Flex>
+                </VStack>
+              </CardBody>
+            </Card>
+          </GridItem>
+        </Grid>
+      </Container>
     </Box>
   )
 }
