@@ -133,4 +133,3 @@ export default function AddFolderButton({ currentFolder, isOpen, onClose }) {
     </Modal>
   )
 }
-
