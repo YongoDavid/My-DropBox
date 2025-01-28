@@ -44,7 +44,7 @@ function Home() {
           {/* Header Section */}
           <Box bg="white" p={3} borderRadius="md" boxShadow="sm" width="100%">
             <VStack spacing={4} align="stretch">
-              <Flex gap={2} align="center">
+              <Flex gap={2} >
                 <FolderGit2 size={20} />
                 <Box flex="1" overflow="hidden">
                   <FolderBreadcrumbs currentFolder={folder} />
@@ -53,7 +53,7 @@ function Home() {
               <HStack spacing={3} justify="space-between" width="100%">
                 <AddFileButton currentFolder={folder} />
                 <Menu>
-                  <MenuButton as={Button} colorScheme="blue" rightIcon={<ChevronDown size={18} />} width="100%">
+                  <MenuButton as={Button} colorScheme="blue" rightIcon={<ChevronDown size={18} />} maxw="100%">
                     New
                   </MenuButton>
                   <MenuList>
