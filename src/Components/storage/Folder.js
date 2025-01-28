@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { Td, IconButton, HStack, Text, useToast, Flex } from "@chakra-ui/react"
+import { Td, IconButton, HStack, Text, useToast, Flex, Box } from "@chakra-ui/react"
 import { FolderIcon, Trash2, MoreVertical } from "lucide-react"
 import Swal from "sweetalert2"
 import { supabase } from "../../supabaseConfig"
@@ -52,31 +52,46 @@ export default function Folder({ folder }) {
   return (
     <>
       <Td>
-        <Flex>
+        <Flex
+          direction={{ base: "row", md: "row" }}
+          align={{ base: "flex-start", md: "center" }}
+          justify="space-between"
+        >
           <HStack spacing={3} flex="1">
-            <FolderIcon size={20} color="#68A1F8" />
-            <Link
-              to={{
-                pathname: `/folder/${folder.id}`,
-                state: { folder: folder },
-              }}
-              style={{ textDecoration: "none" }}
-            >
-              <Text _hover={{ color: "blue.500" }} isTruncated maxWidth={{ base: "150px", md: "200px", lg: "200px" }}>
-                {folder.name}
-              </Text>
-            </Link>
+            <Flex gap={2}>
+              <FolderIcon size={20} color="#68A1F8" />
+              <Link
+                to={{
+                  pathname: `/folder/${folder.id}`,
+                  state: { folder: folder },
+                }}
+                style={{ textDecoration: "none" }}
+              >
+                <Text _hover={{ color: "blue.500" }} isTruncated maxWidth={{ base: "200px", md: "300px", lg: "400px" }}>
+                  {folder.name}
+                </Text>
+              </Link>
+            </Flex>
           </HStack>
-          <HStack spacing={1} display={{ base: "flex", md: "none" }}>
-            <IconButton
-              icon={<Trash2 size={18} />}
-              variant="ghost"
-              size="sm"
-              aria-label="Delete folder"
-              onClick={handleDelete}
-              _hover={{ color: "red.500" }}
-            />
-          </HStack>
+          <Box mt={{ base: 2, md: 0 }}>
+            <HStack spacing={1}>
+              <IconButton
+                icon={<Trash2 size={18} />}
+                variant="ghost"
+                size="sm"
+                aria-label="Delete folder"
+                onClick={handleDelete}
+                _hover={{ color: "red.500" }}
+              />
+              <IconButton
+                icon={<MoreVertical size={18} />}
+                variant="ghost"
+                size="sm"
+                aria-label="More options"
+                display={{ base: "inline-flex", md: "none" }}
+              />
+            </HStack>
+          </Box>
         </Flex>
       </Td>
       <Td display={{ base: "none", md: "table-cell" }} color="gray.600" fontSize="sm">
@@ -87,14 +102,6 @@ export default function Folder({ folder }) {
       </Td>
       <Td display={{ base: "none", md: "table-cell" }}>
         <HStack spacing={1} justify="flex-end">
-          <IconButton
-            icon={<Trash2 size={18} />}
-            variant="ghost"
-            size="sm"
-            aria-label="Delete folder"
-            onClick={handleDelete}
-            _hover={{ color: "red.500" }}
-          />
           <IconButton icon={<MoreVertical size={18} />} variant="ghost" size="sm" aria-label="More options" />
         </HStack>
       </Td>

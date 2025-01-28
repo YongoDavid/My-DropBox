@@ -86,7 +86,7 @@ Issues that are yet to be resolved.
 6. Still need to add delete button to folders
 7. Still having hosting issues with this project(Resolved)
 8. Dropbox back to working , i am making UI updates now.
-Home screen is almost done i just have few more things to update 
-testing Home page UI update
+Home , Files , and folder update is going well.
+major thing left is to alight then files table properly.
 
 cccc3b8fc1d1ecbb0df18dd05c20c578c8aa9909

@@ -4,11 +4,6 @@ import {
   Container,
   Flex,
   Button,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
   Text,
   HStack,
   Menu,
@@ -19,6 +14,12 @@ import {
   ButtonGroup,
   IconButton,
   VStack,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
 } from "@chakra-ui/react"
 import { useCustomHook } from "../../CustomHook"
 import AddFolderButton from "./Add_Folder"
@@ -28,7 +29,7 @@ import File from "./File"
 import Navbar from "../Navbar"
 import FolderBreadcrumbs from "./FolderBreadcrumbs"
 import { useParams, useLocation } from "react-router-dom"
-import { FolderPlus, Upload, FolderGit2, ChevronDown, FileText, LayoutGrid, List } from "lucide-react"
+import { FolderPlus, FolderGit2, ChevronDown, FileText, LayoutGrid, List } from "lucide-react"
 
 function Home() {
   const { folderId } = useParams()
@@ -44,7 +45,7 @@ function Home() {
           {/* Header Section */}
           <Box bg="white" p={3} borderRadius="md" boxShadow="sm" width="100%">
             <VStack spacing={4} align="stretch">
-              <Flex gap={2} >
+              <Flex gap={2}>
                 <FolderGit2 size={20} />
                 <Box flex="1" overflow="hidden">
                   <FolderBreadcrumbs currentFolder={folder} />
@@ -82,29 +83,23 @@ function Home() {
             </Flex>
             <Box overflowX="auto">
               <Table variant="simple">
-                <Thead>
+                <Thead display={{ base: "none", md: "table-header-group" }}>
                   <Tr>
-                    <Th width="60%" fontSize="sm" color="gray.600">
-                      Name
-                    </Th>
-                    <Th width="20%" display={{ base: "none", md: "table-cell" }} fontSize="sm" color="gray.600">
-                      Modified
-                    </Th>
-                    <Th width="20%" display={{ base: "none", md: "table-cell" }} fontSize="sm" color="gray.600">
-                      Who can access
-                    </Th>
-                    <Th width="40%"></Th>
+                    <Th>Name</Th>
+                    <Th>Modified</Th>
+                    <Th>Who can access</Th>
+                    <Th></Th>
                   </Tr>
                 </Thead>
                 <Tbody>
                   {childFolders.length === 0 && childFiles.length === 0 ? (
                     <Tr>
-                      <td colSpan={4}>
+                      <Td colSpan={4}>
                         <Flex direction="column" align="center" justify="center" py={10} color="gray.500">
                           <FolderPlus size={48} strokeWidth={1} />
                           <Text mt={4}>This folder is empty</Text>
                         </Flex>
-                      </td>
+                      </Td>
                     </Tr>
                   ) : (
                     <>
