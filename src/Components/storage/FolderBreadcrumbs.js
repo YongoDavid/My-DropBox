@@ -28,6 +28,12 @@ export default function FolderBreadcrumbs({ currentFolder }) {
       {currentFolder && (
         <Breadcrumb.Item
           className="text-truncate d-inline-block"
+          width={{ base: "full", md: "auto" }}
+          as="label"
+          htmlFor="file-upload"
+          colorScheme="blue"
+          variant="outline"
+          cursor="pointer"
           style={{ maxWidth: "150px" }} active>
           {currentFolder.name}
         </Breadcrumb.Item>

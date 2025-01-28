@@ -13,22 +13,22 @@ import { useAuthenticate } from "../../Context";
 import { supabase } from "../../supabaseConfig";
 
 export default function AddFileButton({ currentFolder }) {
-  console.log('Component rendering'); // Basic mount check
+  // console.log('Component rendering'); // Basic mount check
 
   const [uploadingFiles, setUploadingFiles] = useState([]);
   const { currentUser } = useAuthenticate();
   const toast = useToast();
 
   // Component mount check
-  useEffect(() => {
-    console.log('Component mounted');
-    return () => console.log('Component unmounted');
-  }, []);
+  // useEffect(() => {
+  //   console.log('Component mounted');
+  //   return () => console.log('Component unmounted');
+  // }, []);
 
   // Separate auth check
-  useEffect(() => {
-    console.log('Auth check running, currentUser:', currentUser);
-  }, [currentUser]);
+  // useEffect(() => {
+  //   console.log('Auth check running, currentUser:', currentUser);
+  // }, [currentUser]);
 
   // Simplified file handler for testing
   const handleFileChange = (event) => {
@@ -164,9 +164,10 @@ export default function AddFileButton({ currentFolder }) {
   return (
     <Box>
       <Button
+        leftIcon={<Upload size={18} />}
+        width={{ base: "full", md: "auto" }}
         as="label"
         htmlFor="file-upload"
-        leftIcon={<Upload size={18} />}
         colorScheme="blue"
         variant="outline"
         cursor="pointer"
