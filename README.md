@@ -87,6 +87,6 @@ Issues that are yet to be resolved.
 7. Still having hosting issues with this project(Resolved)
 8. Dropbox back to working , i am making UI updates now.
 Home screen is almost done i just have few more things to update 
-
+testing Home page UI update
 
 cccc3b8fc1d1ecbb0df18dd05c20c578c8aa9909
