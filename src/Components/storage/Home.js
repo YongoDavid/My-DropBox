@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {
   Box,
   Container,
@@ -17,69 +17,43 @@ import {
   MenuItem,
   useDisclosure,
   ButtonGroup,
-  IconButton
-} from "@chakra-ui/react";
-import { useCustomHook } from "../../CustomHook";
-import AddFolderButton from "./Add_Folder";
-import AddFileButton from "./Add_File";
-import Folder from "./Folder";
-import File from "./File";
-import Navbar from "../Navbar";
-import FolderBreadcrumbs from "./FolderBreadcrumbs";
-import { useParams, useLocation } from "react-router-dom";
-import { FolderPlus, Upload, FolderGit2,  ChevronDown, FileText, LayoutGrid, List } from "lucide-react"
+  IconButton,
+  VStack,
+} from "@chakra-ui/react"
+import { useCustomHook } from "../../CustomHook"
+import AddFolderButton from "./Add_Folder"
+import AddFileButton from "./Add_File"
+import Folder from "./Folder"
+import File from "./File"
+import Navbar from "../Navbar"
+import FolderBreadcrumbs from "./FolderBreadcrumbs"
+import { useParams, useLocation } from "react-router-dom"
+import { FolderPlus, Upload, FolderGit2, ChevronDown, FileText, LayoutGrid, List } from "lucide-react"
 
 function Home() {
-  const { folderId } = useParams();
-  const { state = {} } = useLocation();
-  const { folder, childFolders, childFiles } = useCustomHook(
-    folderId,
-    state.folder
-  );
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { folderId } = useParams()
+  const { state = {} } = useLocation()
+  const { folder, childFolders, childFiles } = useCustomHook(folderId, state.folder)
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
-    <Box minH="100vh" bg="gray.50">
+    <Box minH="100vh" bg="gray.50" w="100%">
       <Navbar />
-      <Container maxW={{ base: "container.2xl", md: "container.xl" }} py={6}>
+      <Container maxW="100%" px={{ base: 2, md: 6 }} pt={6}>
         <Flex direction="column" gap={6}>
           {/* Header Section */}
-          <Box bg="white" p={3} borderRadius="md" boxShadow="sm">
-            <Flex 
-                direction={{ base: "column", md: "row" }}
-                justify="space-between"
-                align={{ base: "stretch", md: "stretch" }}
-                gap={4}
-              >
-              <Flex
-                gap={2}
-              >
-                < FolderGit2 size={20} />
-                <Box flex="1" >
+          <Box bg="white" p={3} borderRadius="md" boxShadow="sm" width="100%">
+            <VStack spacing={4} align="stretch">
+              <Flex gap={2} align="center">
+                <FolderGit2 size={20} />
+                <Box flex="1" overflow="hidden">
                   <FolderBreadcrumbs currentFolder={folder} />
                 </Box>
               </Flex>
-              <HStack spacing={3} justify={{ base: "stretch", md: "flex-end" }}>
-                {/* CREATE FILE / FOLDER SETUP  */}
-                {/* <Button
-                  as="label"
-                  htmlFor="file-upload"
-                  leftIcon={<Upload size={18} />}
-                  bg="gray.100"
-                  color="gray.700"
-                  _hover={{ bg: "gray.200" }}
-                  width={{ base: "full", md: "auto" }}
-                >
-                  Upload
-                </Button> */}
+              <HStack spacing={3} justify="space-between" width="100%">
                 <AddFileButton currentFolder={folder} />
                 <Menu>
-                  <MenuButton
-                    as={Button}
-                    colorScheme="blue"
-                    rightIcon={<ChevronDown size={18} />}
-                    width={{ base: "full", md: "auto" }}
-                  >
+                  <MenuButton as={Button} colorScheme="blue" rightIcon={<ChevronDown size={18} />} width="100%">
                     New
                   </MenuButton>
                   <MenuList>
@@ -92,15 +66,11 @@ function Home() {
                   </MenuList>
                 </Menu>
               </HStack>
-            </Flex>
+            </VStack>
           </Box>
 
-          {/* SECOND UPLOAD BUTTON  */}
-          {/* Add the AddFileButton component here */}
-          
-
           {/* Content Section */}
-          <Box bg="white" borderRadius="md" boxShadow="sm" overflow="hidden">
+          <Box bg="white" borderRadius="md" boxShadow="sm" overflow="hidden" width="100%">
             <Flex justify="space-between" align="center" p={4} borderBottom="1px" borderColor="gray.200">
               <Text fontSize="lg" fontWeight="medium">
                 All files
@@ -110,62 +80,59 @@ function Home() {
                 <IconButton aria-label="Grid view" icon={<LayoutGrid size={18} />} />
               </ButtonGroup>
             </Flex>
-            <Table variant="simple">
-              <Thead>
-                <Tr>
-                  <Th width={{ base: "60%", md: "50%" }} fontSize="sm" color="gray.600">Name</Th>
-                  <Th width="20%" display={{ base: "none", md: "table-cell" }} fontSize="sm" color="gray.600">Modified</Th>
-                  <Th width="20%" display={{ base: "none", md: "table-cell" }} fontSize="sm" color="gray.600">Who can access</Th>
-                  <Th width={{ base: "40%", md: "10%" }}></Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {childFolders.length === 0 && childFiles.length === 0 ? (
+            <Box overflowX="auto">
+              <Table variant="simple">
+                <Thead>
                   <Tr>
-                    <td colSpan={4}>
-                      <Flex 
-                        direction="column" 
-                        align="center" 
-                        justify="center" 
-                        py={10}
-                        color="gray.500"
-                      >
-                        <FolderPlus size={48} strokeWidth={1} />
-                        <Text mt={4}>This folder is empty</Text>
-                      </Flex>
-                    </td>
+                    <Th width="60%" fontSize="sm" color="gray.600">
+                      Name
+                    </Th>
+                    <Th width="20%" display={{ base: "none", md: "table-cell" }} fontSize="sm" color="gray.600">
+                      Modified
+                    </Th>
+                    <Th width="20%" display={{ base: "none", md: "table-cell" }} fontSize="sm" color="gray.600">
+                      Who can access
+                    </Th>
+                    <Th width="40%"></Th>
                   </Tr>
-                ) : (
-                  <>
-                    {childFolders.map(childFolder => (
-                      <Tr key={childFolder.id}>
-                        <Folder folder={childFolder} />
-                      </Tr>
-                    ))}
-                    {childFiles.map(childFile => (
-                      <Tr key={childFile.id}>
-                        <File file={childFile} />
-                      </Tr>
-                    ))}
-                  </>
-                )}
-              </Tbody>
-            </Table>
+                </Thead>
+                <Tbody>
+                  {childFolders.length === 0 && childFiles.length === 0 ? (
+                    <Tr>
+                      <td colSpan={4}>
+                        <Flex direction="column" align="center" justify="center" py={10} color="gray.500">
+                          <FolderPlus size={48} strokeWidth={1} />
+                          <Text mt={4}>This folder is empty</Text>
+                        </Flex>
+                      </td>
+                    </Tr>
+                  ) : (
+                    <>
+                      {childFolders.map((childFolder) => (
+                        <Tr key={childFolder.id}>
+                          <Folder folder={childFolder} />
+                        </Tr>
+                      ))}
+                      {childFiles.map((childFile) => (
+                        <Tr key={childFile.id}>
+                          <File file={childFile} />
+                        </Tr>
+                      ))}
+                    </>
+                  )}
+                </Tbody>
+              </Table>
+            </Box>
           </Box>
 
           {/* Hidden file input for upload functionality */}
-          <input
-            type="file"
-            id="file-upload"
-            style={{ display: 'none' }}
-            multiple
-          />
+          <input type="file" id="file-upload" style={{ display: "none" }} multiple />
         </Flex>
       </Container>
       <AddFolderButton currentFolder={folder} isOpen={isOpen} onClose={onClose} />
     </Box>
-  );
+  )
 }
 
-export default Home;
+export default Home
 
