@@ -67,13 +67,13 @@ export default function Folder({ folder }) {
                 }}
                 style={{ textDecoration: "none" }}
               >
-                <Text _hover={{ color: "blue.500" }} isTruncated maxWidth={{ base: "200px", md: "300px", lg: "400px" }}>
+                <Text _hover={{ color: "blue.500" }} isTruncated maxWidth={{ base: "150px", md: "300px", lg: "400px" }}>
                   {folder.name}
                 </Text>
               </Link>
             </Flex>
           </HStack>
-          <Box mt={{ base: 2, md: 0 }}>
+          <Box>
             <HStack spacing={1}>
               <IconButton
                 icon={<Trash2 size={18} />}

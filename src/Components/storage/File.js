@@ -88,13 +88,13 @@ export default function File({ file }) {
                 onClick={handleDownload}
                 _hover={{ color: "blue.500" }}
                 isTruncated
-                maxWidth={{ base: "200px", md: "300px", lg: "400px" }}
+                maxWidth={{ base: "150px", md: "300px", lg: "400px" }}
               >
                 {file.name}
               </Text>
             </Flex>
           </HStack>
-          <Box mt={{ base: 2, md: 0 }}>
+          <Box>
             <HStack spacing={1}>
               <IconButton
                 icon={<Download size={18} />}

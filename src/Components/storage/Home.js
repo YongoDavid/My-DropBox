@@ -15,6 +15,7 @@ import {
   IconButton,
   VStack,
   Table,
+  TableContainer,
   Thead,
   Tbody,
   Tr,
@@ -82,7 +83,8 @@ function Home() {
               </ButtonGroup>
             </Flex>
             <Box overflowX="auto">
-              <Table variant="simple">
+              {/* <TableContainer></TableContainer> */}
+              <Table variant='striped' colorScheme='gray'>
                 <Thead display={{ base: "none", md: "table-header-group" }}>
                   <Tr>
                     <Th>Name</Th>
@@ -94,7 +96,7 @@ function Home() {
                 <Tbody>
                   {childFolders.length === 0 && childFiles.length === 0 ? (
                     <Tr>
-                      <Td colSpan={4}>
+                      <Td colSpan={4} align="center">
                         <Flex direction="column" align="center" justify="center" py={10} color="gray.500">
                           <FolderPlus size={48} strokeWidth={1} />
                           <Text mt={4}>This folder is empty</Text>

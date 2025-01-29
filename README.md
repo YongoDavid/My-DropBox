@@ -87,6 +87,4 @@ Issues that are yet to be resolved.
 7. Still having hosting issues with this project(Resolved)
 8. Dropbox back to working , i am making UI updates now.
 Home , Files , and folder update is going well.
-major thing left is to alight then files table properly.
-
-cccc3b8fc1d1ecbb0df18dd05c20c578c8aa9909
+major thing left is to alight the files table properly.
