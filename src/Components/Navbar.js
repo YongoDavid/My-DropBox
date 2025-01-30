@@ -25,7 +25,7 @@ export default function NavbarComponent() {
   };
 
   return (
-    <Box bg="white" px={4} py={2} borderBottom="1px" borderColor="gray.200">
+    <Box bg="white" px={6} py={4} borderBottom="1px" borderColor="gray.200">
       <Flex alignItems="center" justifyContent="space-between">
         <Link to="/">
           <Flex alignItems="center" gap={2}>
