@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { useAuthenticate } from "../Context";
-import { Link, useHistory } from "react-router-dom";
-import cloud from './Images/happyman.jpg';
+import { useState } from "react"
+import { useAuthenticate } from "../Context"
+import { Link, useHistory } from "react-router-dom"
+import cloud from "./Images/happyman.jpg"
 import {
   Box,
   Button,
   FormControl,
-  FormLabel,
   Input,
   VStack,
   Heading,
@@ -16,33 +15,34 @@ import {
   InputRightElement,
   IconButton,
   Image,
-} from "@chakra-ui/react";
-import { Eye, EyeOff, LogIn } from 'lucide-react';
+  Flex,
+} from "@chakra-ui/react"
+import { Eye, EyeOff, LogIn } from "lucide-react"
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const { login } = useAuthenticate();
-  const history = useHistory();
-  const toast = useToast();
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const { login } = useAuthenticate()
+  const history = useHistory()
+  const toast = useToast()
 
   async function handleLogin(e) {
-    e.preventDefault();
-    setLoading(true);
+    e.preventDefault()
+    setLoading(true)
     try {
-      await login(email, password);
-      history.push("/");
+      await login(email, password)
+      history.push("/")
     } catch (error) {
-      let errorMessage = "Failed to log in";
+      let errorMessage = "Failed to log in"
       switch (error.message) {
         case "Invalid login credentials":
-          errorMessage = "Invalid email or password";
-          break;
+          errorMessage = "Invalid email or password"
+          break
         case "Email not confirmed":
-          errorMessage = "Please verify your email address";
-          break;
+          errorMessage = "Please verify your email address"
+          break
       }
       toast({
         title: "Error",
@@ -50,48 +50,62 @@ export default function Login() {
         status: "error",
         duration: 3000,
         isClosable: true,
-      });
+      })
     }
-    setLoading(false);
+    setLoading(false)
   }
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
+    <Flex
       minHeight="100vh"
-      bg="blue.50"
+      width="100%"
+      bgGradient="linear(to-b, blue.300, purple.400)"
+      alignItems="center"
+      justifyContent="center"
     >
-      <Box
-        bg="white"
-        p={8}
-        borderRadius="xl"
-        boxShadow="xl"
-        width={{ base: "90%", sm: "400px", md: "900px" }}
-        display={{ md: "flex" }}
-      >
-        <VStack spacing={6} width={{ base: "100%", md: "50%" }}>
-          <Heading color="blue.500">Log In</Heading>
+      <Flex direction={{ base: "column", md: "row" }} width="100%" height="100vh" overflow="hidden">
+        <VStack
+          spacing={{ base: 4, md: 6 }}
+          width={{ base: "100%", md: "50%" }}
+          height="100%"
+          bg="white"
+          justifyContent="center"
+          p={{ base: 6, md: 8 }}
+        >
+          <VStack spacing={2} align="center" width="100%">
+            <Heading fontSize={{ base: "3xl", md: "4xl" }} color="gray.800">
+              Welcome!
+            </Heading>
+            <Text fontSize="lg" color="gray.600">
+              We're Glad to see you
+            </Text>
+          </VStack>
+
           <FormControl id="email">
-            <FormLabel>Email</FormLabel>
             <Input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              borderColor="blue.300"
+              placeholder="Email Address"
+              size="lg"
+              bg="whiteAlpha.800"
+              border="1px solid"
+              borderColor="gray.200"
               _hover={{ borderColor: "blue.400" }}
               _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px #3182ce" }}
             />
           </FormControl>
+
           <FormControl id="password">
-            <FormLabel>Password</FormLabel>
-            <InputGroup>
+            <InputGroup size="lg">
               <Input
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                borderColor="blue.300"
+                placeholder="Type a password"
+                bg="whiteAlpha.800"
+                border="1px solid"
+                borderColor="gray.200"
                 _hover={{ borderColor: "blue.400" }}
                 _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px #3182ce" }}
               />
@@ -106,37 +120,49 @@ export default function Login() {
               </InputRightElement>
             </InputGroup>
           </FormControl>
+
           <Button
             leftIcon={<LogIn size={18} />}
+            size="lg"
             colorScheme="blue"
             isLoading={loading}
             onClick={handleLogin}
             width="full"
+            bg="blue.500"
+            color="white"
+            _hover={{ bg: "blue.600" }}
           >
-            Log In
+            Login
           </Button>
-          <Text color="blue.600">
+
+          <Text color="blue.600" fontSize="sm">
             <Link to="/forgot-password">Forgot Password?</Link>
           </Text>
-          <Text>
+
+          <Text color="gray.600" fontSize="sm">
             Need an account?{" "}
             <Link to="/signup" style={{ color: "blue" }}>
               Sign Up
             </Link>
           </Text>
         </VStack>
-        <Box width={{ base: "100%", md: "50%" }} display={{ base: "none", md: "block" }}>
+
+        <Box
+          width={{ base: "100%", md: "50%" }}
+          height="100%"
+          display={{ base: "none", md: "block" }}
+          overflow="hidden"
+        >
           <Image
-            mx="20px"
-            my="40px"
-            src={cloud}
+            src={cloud || "/placeholder.svg"}
             alt="Cloud Storage Illustration"
             objectFit="cover"
-            borderRadius="xl"
+            width="100%"
+            height="100%"
           />
         </Box>
-      </Box>
-    </Box>
-  );
+      </Flex>
+    </Flex>
+  )
 }
 
