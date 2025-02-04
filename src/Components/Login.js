@@ -86,7 +86,7 @@ export default function Login() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email Address"
+              placeholder="Email"
               size="lg"
               bg="whiteAlpha.800"
               border="1px solid"
@@ -102,7 +102,7 @@ export default function Login() {
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Type a password"
+                placeholder="password"
                 bg="whiteAlpha.800"
                 border="1px solid"
                 borderColor="gray.200"

@@ -79,17 +79,4 @@ Stopped at creating a new chat and trying to trasnfer information to the new cha
 
 Stopped at the file and folder components UI update
 Issues that are yet to be resolved.
-1. The files uploaded and folders created dont show immediatly on UI till i logout and log back in or refresh my page.
-3. i am yet to design the profile section.
-4. I am yet to host the client side on render as well.
-5. File upload now working, need to get rid of one upload button and leave just one(I might just leave the two)
-6. Still need to add delete button to folders
-7. Still having hosting issues with this project(Resolved)
-8. Dropbox back to working , i am making UI updates now.
-Home , Files , and folder update is going well.
-major thing left is to alight the files/folder names and icon properly
-
-
-LOGIN AND SIGNUP UI update done : DONE
-Pages left for me to give responsive :
-1. Update profile section 
+1. Align the files and folder names and Logo to the rest of the tables elements

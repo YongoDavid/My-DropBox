@@ -73,7 +73,7 @@ export default function ForgotPassword() {
               Password Reset
             </Heading>
             <Text fontSize="lg" color="gray.600">
-              Enter your email to reset your password
+              Enter your email to reset password
             </Text>
           </VStack>
 
