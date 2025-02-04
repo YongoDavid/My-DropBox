@@ -35,7 +35,7 @@ export default function NavbarComponent() {
               h="24px"
             />
             <Box fontSize="xl" fontWeight="bold" color="blue.500">
-              My Dropbox
+              Storebox
             </Box>
           </Flex>
         </Link>
