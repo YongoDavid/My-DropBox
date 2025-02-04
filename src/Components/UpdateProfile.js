@@ -1,10 +1,9 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import {
   Box,
   VStack,
   Heading,
   FormControl,
-  FormLabel,
   Input,
   Button,
   useToast,
@@ -12,12 +11,13 @@ import {
   InputGroup,
   InputRightElement,
   IconButton,
-  Container,
-  useBreakpointValue,
+  Flex,
+  Image,
 } from "@chakra-ui/react"
 import { useAuthenticate } from "../Context"
 import { Link, useHistory } from "react-router-dom"
-import { Mail, Key, Eye, EyeOff, Save, X } from "lucide-react"
+import { Mail, Eye, EyeOff, Save, X } from "lucide-react"
+import cloud from "./Images/happyman.jpg"
 
 export default function UpdateProfile() {
   const [email, setEmail] = useState("")
@@ -29,7 +29,6 @@ export default function UpdateProfile() {
   const { currentUser, updatePassword, updateEmail } = useAuthenticate()
   const toast = useToast()
   const history = useHistory()
-  const containerWidth = useBreakpointValue({ base: "100%", md: "400px" })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -79,59 +78,92 @@ export default function UpdateProfile() {
   }
 
   return (
-    <Box minH="100vh" bg="gray.50" py={10}alignItems="center" justifyContent="center" >
-      <Container maxW={containerWidth} p={{ base: 4, md: 8 }}>
-        <VStack spacing={6} mx="auto" maxW="400px" bg="white" p={8} borderRadius="xl" boxShadow="md">
-          <Heading size="lg" color="blue.500">
-            Update Profile
-          </Heading>
+    <Flex
+      minHeight="100vh"
+      width="100%"
+      bgGradient="linear(to-b, blue.300, purple.400)"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Flex direction={{ base: "column", md: "row" }} width="100%" height="100vh" overflow="hidden">
+        <VStack
+          spacing={{ base: 4, md: 6 }}
+          width={{ base: "100%", md: "50%" }}
+          height="100%"
+          bg="white"
+          justifyContent="center"
+          p={{ base: 6, md: 8 }}
+        >
+          <VStack spacing={2} align="center" width="100%">
+            <Heading fontSize={{ base: "3xl", md: "4xl" }} color="gray.800">
+              Update Profile
+            </Heading>
+            <Text fontSize="lg" color="gray.600">
+              Modify your account details
+            </Text>
+          </VStack>
+
           <form onSubmit={handleSubmit} style={{ width: "100%" }}>
             <VStack spacing={4} align="stretch">
               <FormControl id="email">
-                <FormLabel>Email</FormLabel>
-                <InputGroup>
+                <InputGroup size="lg">
                   <Input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder={currentUser.email}
+                    placeholder={currentUser.email || "Email Address"}
+                    bg="whiteAlpha.800"
+                    border="1px solid"
+                    borderColor="gray.200"
+                    _hover={{ borderColor: "blue.400" }}
+                    _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px #3182ce" }}
                   />
-                  <InputRightElement children={<Mail size={18} color="gray.300" />} />
+                  <InputRightElement children={<Mail size={18} color="gray.400" />} />
                 </InputGroup>
               </FormControl>
               <FormControl id="password">
-                <FormLabel>New Password</FormLabel>
-                <InputGroup>
+                <InputGroup size="lg">
                   <Input
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Leave blank to keep the same"
+                    placeholder="New Password"
+                    bg="whiteAlpha.800"
+                    border="1px solid"
+                    borderColor="gray.200"
+                    _hover={{ borderColor: "blue.400" }}
+                    _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px #3182ce" }}
                   />
                   <InputRightElement>
                     <IconButton
                       icon={showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                       onClick={() => setShowPassword(!showPassword)}
                       variant="ghost"
+                      color="gray.500"
                       aria-label={showPassword ? "Hide password" : "Show password"}
                     />
                   </InputRightElement>
                 </InputGroup>
               </FormControl>
               <FormControl id="password-confirm">
-                <FormLabel>Confirm New Password</FormLabel>
-                <InputGroup>
+                <InputGroup size="lg">
                   <Input
                     type={showPasswordConfirm ? "text" : "password"}
                     value={passwordConfirm}
                     onChange={(e) => setPasswordConfirm(e.target.value)}
-                    placeholder="Leave blank to keep the same"
+                    placeholder="Confirm New Password"
+                    bg="whiteAlpha.800"
+                    border="1px solid"
+                    borderColor="gray.200"
+                    _hover={{ borderColor: "blue.400" }}
+                    _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px #3182ce" }}
                   />
                   <InputRightElement>
                     <IconButton
                       icon={showPasswordConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
                       onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
                       variant="ghost"
+                      color="gray.500"
                       aria-label={showPasswordConfirm ? "Hide password" : "Show password"}
                     />
                   </InputRightElement>
@@ -139,21 +171,49 @@ export default function UpdateProfile() {
               </FormControl>
               <Button
                 type="submit"
+                leftIcon={<Save size={18} />}
+                size="lg"
                 colorScheme="blue"
                 isLoading={loading}
                 loadingText="Updating"
-                leftIcon={<Save size={18} />}
+                width="full"
+                bg="blue.500"
+                color="white"
+                _hover={{ bg: "blue.600" }}
               >
-                Update
+                Update Profile
               </Button>
             </VStack>
           </form>
-          <Button as={Link} to="/user" variant="outline" colorScheme="gray" leftIcon={<X size={18} />} w="100%">
+          <Button
+            as={Link}
+            to="/user"
+            leftIcon={<X size={18} />}
+            size="lg"
+            variant="outline"
+            colorScheme="gray"
+            width="full"
+          >
             Cancel
           </Button>
         </VStack>
-      </Container>
-    </Box>
+
+        <Box
+          width={{ base: "100%", md: "50%" }}
+          height="100%"
+          display={{ base: "none", md: "block" }}
+          overflow="hidden"
+        >
+          <Image
+            src={cloud || "/placeholder.svg"}
+            alt="Cloud Storage Illustration"
+            objectFit="cover"
+            width="100%"
+            height="100%"
+          />
+        </Box>
+      </Flex>
+    </Flex>
   )
 }
 

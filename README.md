@@ -88,3 +88,8 @@ Issues that are yet to be resolved.
 8. Dropbox back to working , i am making UI updates now.
 Home , Files , and folder update is going well.
 major thing left is to alight the files/folder names and icon properly
+
+
+LOGIN AND SIGNUP UI update done : DONE
+Pages left for me to give responsive :
+1. Update profile section 
