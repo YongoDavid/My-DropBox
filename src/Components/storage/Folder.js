@@ -54,11 +54,11 @@ export default function Folder({ folder }) {
       <Td>
         <Flex
           direction={{ base: "row", md: "row" }}
-          align={{ base: "flex-start", md: "center" }}
+          align={{ base: "center", md: "center" }}
           justify="space-between"
         >
           <HStack spacing={3} flex="1">
-            <Flex gap={2}>
+            <Flex marginTop={4} gap={2}>
               <FolderIcon size={20} color="#68A1F8" />
               <Link
                 to={{
@@ -67,7 +67,7 @@ export default function Folder({ folder }) {
                 }}
                 style={{ textDecoration: "none" }}
               >
-                <Text _hover={{ color: "blue.500" }} isTruncated maxWidth={{ base: "150px", md: "300px", lg: "400px" }}>
+                <Text _hover={{ color: "blue.500" }}  isTruncated maxWidth={{ base: "150px", md: "300px", lg: "400px" }}>
                   {folder.name}
                 </Text>
               </Link>

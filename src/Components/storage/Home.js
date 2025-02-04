@@ -73,8 +73,15 @@ function Home() {
 
           {/* Content Section */}
           <Box bg="white" borderRadius="md" boxShadow="sm" overflow="hidden" width="100%">
-            <Flex justify="space-between" align="center" p={4} borderBottom="1px" borderColor="gray.200">
-              <Text fontSize="lg" fontWeight="medium">
+            <Flex 
+              justify="space-between" 
+              align="center" 
+              p={4} 
+              borderBottom="1px" 
+              borderColor="gray.200"
+              display={{ base: "none", }}
+              >
+              <Text  fontSize="lg" fontWeight="medium">
                 All files
               </Text>
               <ButtonGroup size="sm" isAttached variant="outline">
@@ -84,7 +91,7 @@ function Home() {
             </Flex>
             <Box overflowX="auto">
               {/* <TableContainer></TableContainer> */}
-              <Table variant='striped' colorScheme='gray'>
+              <Table>
                 <Thead display={{ base: "none", md: "table-header-group" }}>
                   <Tr>
                     <Th>Name</Th>
@@ -131,5 +138,4 @@ function Home() {
   )
 }
 
-export default Home
-
+export default Home;

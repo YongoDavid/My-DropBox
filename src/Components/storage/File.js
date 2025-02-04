@@ -81,13 +81,14 @@ export default function File({ file }) {
           justify="space-between"
         >
           <HStack spacing={3} flex="1">
-            <Flex gap={2}>
+            <Flex marginTop={4} gap={2}>
               <FileText size={20} color="#68A1F8" />
               <Text
                 cursor="pointer"
                 onClick={handleDownload}
                 _hover={{ color: "blue.500" }}
                 isTruncated
+                flex="1" pr={4} 
                 maxWidth={{ base: "150px", md: "300px", lg: "400px" }}
               >
                 {file.name}
