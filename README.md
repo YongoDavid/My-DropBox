@@ -69,14 +69,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-having issues when uploading a file , error ref is Add_File.js
-Still trying to fix uploading error from "Add_File.js"
-
-
-
-Stopped at creating a new chat and trying to trasnfer information to the new chat.
-
-
-Stopped at the file and folder components UI update
-Issues that are yet to be resolved.
-1. Align the files and folder names and Logo to the rest of the tables elements
+Project Complete 
