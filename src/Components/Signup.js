@@ -88,7 +88,7 @@ export default function Signup() {
         >
           <VStack spacing={2} align="center" width="100%">
             <Heading fontSize={{ base: "3xl", md: "4xl" }} color="gray.800">
-              Create Account
+              Just Signup
             </Heading>
             <Text fontSize="lg" color="gray.600">
               Save and access your files from any device,Try Storebox today.
