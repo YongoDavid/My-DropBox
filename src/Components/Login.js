@@ -74,10 +74,10 @@ export default function Login() {
         >
           <VStack spacing={2} align="center" width="100%">
             <Heading fontSize={{ base: "3xl", md: "4xl" }} color="gray.800">
-              Welcome!
+              Welcome Back!
             </Heading>
             <Text fontSize="lg" color="gray.600">
-              We're Glad to see you
+              Your secure place to Store, share and back up your data.
             </Text>
           </VStack>
 
