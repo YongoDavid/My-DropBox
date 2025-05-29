@@ -91,7 +91,7 @@ export default function Signup() {
               Create Account
             </Heading>
             <Text fontSize="lg" color="gray.600">
-              Save and access your files from any device, and share them with anyone. Try Storebox today.
+              Save and access your files from any device,Try Storebox today.
             </Text>
           </VStack>
 
