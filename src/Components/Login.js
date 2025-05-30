@@ -77,7 +77,7 @@ export default function Login() {
               Welcome Back!
             </Heading>
             <Text fontSize="lg" color="gray.600">
-              Your secure place to Store, share and back up your data.
+              Your secure place to store, share and back up your data.
             </Text>
           </VStack>
 
